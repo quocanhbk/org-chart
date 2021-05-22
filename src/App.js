@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import styled, { ThemeProvider } from 'styled-components';
+import Main from './components/Main';
+import theme from './utils/theme';
+import Context from './Context';
 
+const StyledApp = styled.div`
+  background: ${(props) => props.theme.color.background.primary};
+  height: 100vh;
+  overflow: hidden;
+  transition: background 0.25s ease-out;
+  color: ${props => props.theme.color.text.primary};
+`;
+const Container = () => {
+  const {themeContext} = Context.useContainer()
+  
+  return (
+    <ThemeProvider theme={themeContext.isDark ? theme.dark : theme.light}>
+        <StyledApp>
+            <Main/>
+        </StyledApp>
+    </ThemeProvider>
+  );
+};
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Context.Provider>
+      <Container />
+    </Context.Provider>
   );
 }
 
