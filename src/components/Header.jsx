@@ -1,7 +1,8 @@
 import styled from "styled-components"
 import Context from '../Context'
 import ThemeToggle from './ThemeToggle'
-
+import UploadButton from "./UploadButton"
+import xlsx from 'xlsx'
 
 const Container = styled.div`
     padding: 0.5rem 1rem;
@@ -20,10 +21,20 @@ const Container = styled.div`
 
 const Header = () => {
     const {themeContext} = Context.useContainer()
-
+    const handleSubmit = (file) => {
+        let reader = new FileReader()
+        reader.onload = (e) => {
+            let data = new Uint8Array(e.target.result)
+            let workbook = xlsx.read(data, {type: 'array'})
+            console.log(workbook.Sheets)
+            console.log(xlsx.utils.sheet_to_json(workbook.Sheets.Sheet1).map(row => row.Name))
+        }
+        reader.readAsArrayBuffer(file)
+    }
     return (
         <Container>
             <h1>Organization Chart</h1>
+            <UploadButton onSubmit={handleSubmit}/>
             <ThemeToggle value={themeContext.isDark} onSelect={() => themeContext.toggleTheme()}/>
         </Container>
     )

@@ -45,7 +45,6 @@ const PopupContainer = styled.div`
     display: grid;
     place-items: center;
 `
-
 const Body = () => {
     
     const onAddButtonClick = (parentId) => {
