@@ -77,29 +77,29 @@ const Body = () => {
         <Container>
             <FlowContainer>
                 {chart.length > 0 ? 
-                <FlowBorder>
-                    <ReactFlow 
-                        onLoad={onLoad}
-                        elements={chart} 
-                        nodesDraggable={false} 
-                        nodesConnectable={false}
-                        nodeTypes={{department: DepartmentNode}}
-                        >
-                    </ReactFlow>
-                    {popup && 
-                        <PopupContainer>
-                            <AddChildForm 
-                                chart={chart} 
-                                parentId={parent} 
-                                onSubmit={handleFormSubmit}
-                                mode={popup.mode}
-                                data={popup.data}
-                                employeeData={employeeData}
-                                onClickX={() => setPopup(null)}
-                            />
-                        </PopupContainer>}
-                </FlowBorder> :
-                <UploadButton onSubmit={handleSubmit}/>
+                    <FlowBorder>
+                        <ReactFlow 
+                            onLoad={onLoad}
+                            elements={chart} 
+                            nodesDraggable={false} 
+                            nodesConnectable={false}
+                            nodeTypes={{department: DepartmentNode}}
+                            >
+                        </ReactFlow>
+                        {popup && 
+                            <PopupContainer>
+                                <AddChildForm 
+                                    chart={chart} 
+                                    parentId={parent} 
+                                    onSubmit={handleFormSubmit}
+                                    mode={popup.mode}
+                                    data={popup.data}
+                                    employeeData={employeeData}
+                                    onClickX={() => setPopup(null)}
+                                />
+                            </PopupContainer>}
+                    </FlowBorder> :
+                    <UploadButton onSubmit={handleSubmit}/>
                 }
             </FlowContainer>
         </Container>
