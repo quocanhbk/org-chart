@@ -1,11 +1,21 @@
 import { useRef, useState } from "react"
 import Flow from '../drawFlow'
+import xlsx from 'xlsx'
 
 // onAddButtonClick(parentId)
 //onUpdateButtonClick(oldId, parentId, data)
 
 const useChart = (initData, onAddButtonClick, onUpdateButtonClick) => {
 
+    const handleSubmit = (file) => {
+        let reader = new FileReader()
+        reader.onload = (e) => {
+            let data = new Uint8Array(e.target.result)
+            let workbook = xlsx.read(data, {type: 'array'})
+            console.log(workbook.Sheets)
+        }
+        reader.readAsArrayBuffer(file)
+    }
     const onDeleteNode = (nodeId) => {
         chartRef.current.deleteNode(nodeId)
         setChart([])
@@ -50,7 +60,7 @@ const useChart = (initData, onAddButtonClick, onUpdateButtonClick) => {
         }, 1);
     }
     
-    return {chart, insertNode, updateNode}
+    return {chart, insertNode, updateNode, handleSubmit}
 }
 
 export default useChart
