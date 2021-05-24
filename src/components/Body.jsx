@@ -2,9 +2,9 @@ import { useState } from 'react'
 import ReactFlow from 'react-flow-renderer'
 import styled from 'styled-components'
 import useChart from '../hooks/useChart'
-import departmentData, {} from '../sampleData'
 import AddChildForm from './AddChildForm'
 import DepartmentNode from './DepartmentNode'
+import UploadButton from './UploadButton'
 
 const Container = styled.div`
     height: 100%;
@@ -19,6 +19,8 @@ const FlowContainer = styled.div`
     height: 100%;
     background: ${props => props.theme.color.background.primary};
     padding: 1rem;
+    display: grid;
+    place-items: center;
 `
 const FlowBorder = styled.div`
     width: 100%;
@@ -56,7 +58,7 @@ const Body = () => {
         setParent(parentId)
         setPopup({mode: "update", data: data})
     }
-    let {chart, insertNode, updateNode} = useChart(departmentData, onAddButtonClick, onUpdateButtonClick)
+    let {chart, employeeData, insertNode, updateNode, handleSubmit} = useChart(onAddButtonClick, onUpdateButtonClick)
     const onLoad = (reactFlowInstance) => reactFlowInstance.setTransform({x: 10, y: 10, zoom: 0.8})
     const [popup, setPopup] = useState(null)
     const [parent, setParent] = useState()
@@ -69,13 +71,12 @@ const Body = () => {
             data.id = updatingId
             updateNode(data)
         }
-            
-
         setPopup(null)
     }
     return (
         <Container>
             <FlowContainer>
+                {chart.length > 0 ? 
                 <FlowBorder>
                     <ReactFlow 
                         onLoad={onLoad}
@@ -93,10 +94,13 @@ const Body = () => {
                                 onSubmit={handleFormSubmit}
                                 mode={popup.mode}
                                 data={popup.data}
+                                employeeData={employeeData}
                                 onClickX={() => setPopup(null)}
                             />
                         </PopupContainer>}
-                </FlowBorder>
+                </FlowBorder> :
+                <UploadButton onSubmit={handleSubmit}/>
+                }
             </FlowContainer>
         </Container>
     )

@@ -12,13 +12,13 @@ const Container = styled.div`
     color: ${props => props.theme.color.fill.primary};
     border: 1px solid ${props => props.theme.color.border.primary};
     box-shadow: ${props => props.theme.shadow};
-    padding: 0.2rem 0.4rem;
+    padding: 1rem;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 0.2rem;
-    font-size: 0.8rem;
+    border-radius: 5rem;
+    font-size: 1rem;
     & input, input::-webkit-file-upload-button {
         height: 100%;
         width: 100%;
@@ -46,7 +46,7 @@ const UploadButton = ({onSubmit}) => {
     
     return (
         <Container>
-            <BsArrowBarUp size="1rem"/>
+            <BsArrowBarUp size="2rem"/>
             Upload
             <input type="file" onChange={handleChange} title="" accept=".xlsx"/>
         </Container>

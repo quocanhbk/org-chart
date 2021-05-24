@@ -2,7 +2,6 @@ import { useState } from "react"
 import styled from "styled-components"
 import { getFader } from "../utils/color"
 import Combox from "./Combox"
-import {peopleData} from '../sampleData'
 import Icon from './Icon'
 const Container = styled.div`
     border: 1px solid ${props => props.theme.color.border.primary};
@@ -80,7 +79,7 @@ const ComboxTag = styled.div`
     gap: 0.5rem;
     align-items: center;
 `
-const AddChildForm = ({onSubmit, chart, parentId, onClickX, mode, data}) => {
+const AddChildForm = ({onSubmit, chart, parentId, onClickX, mode, data, employeeData}) => {
     const [name, setName] = useState(data && data.name)
     const [head, setHead] = useState(data && data.head)
     const [staffs, setStaffs] = useState(data ? data.staffs : [])
@@ -136,7 +135,7 @@ const AddChildForm = ({onSubmit, chart, parentId, onClickX, mode, data}) => {
                 <FormControl>
                     <label>Head</label>
                     <Combox onSelect={v => handleSelect("head", v)} searchable>
-                        {peopleData.map(person => 
+                        {employeeData.map(person => 
                             <Combox.Option 
                                 key={person.email} 
                                 id={person.email} 
@@ -157,7 +156,7 @@ const AddChildForm = ({onSubmit, chart, parentId, onClickX, mode, data}) => {
                 <FormControl>
                     <label>Staffs</label>
                     <Combox onSelect={v => handleSelect("staffs", v)} multiple searchable>
-                        {peopleData.map(person => 
+                        {employeeData.map(person => 
                             <Combox.Option 
                                 key={person.email} 
                                 id={person.email} 
