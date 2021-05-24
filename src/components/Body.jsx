@@ -58,7 +58,7 @@ const Body = () => {
         setParent(parentId)
         setPopup({mode: "update", data: data})
     }
-    let {chart, employeeData, insertNode, updateNode, handleSubmit} = useChart(onAddButtonClick, onUpdateButtonClick)
+    let {chart, render, employeeData, insertNode, updateNode, handleSubmit} = useChart(onAddButtonClick, onUpdateButtonClick)
     const onLoad = (reactFlowInstance) => reactFlowInstance.setTransform({x: 10, y: 10, zoom: 0.8})
     const [popup, setPopup] = useState(null)
     const [parent, setParent] = useState()
@@ -76,7 +76,7 @@ const Body = () => {
     return (
         <Container>
             <FlowContainer>
-                {chart.length > 0 ? 
+                {render ? 
                     <FlowBorder>
                         <ReactFlow 
                             onLoad={onLoad}

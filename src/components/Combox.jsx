@@ -26,8 +26,14 @@ Option.propTypes = {
     default: PropTypes.bool
 }
 const opa = keyframes `
-    0% {transform: translateY(100%);opacity: 0;};
-    100% {transform: translateY(0%);opacity: 1;}
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0%);
+        opacity: 1;
+    }
 `;
 const out = keyframes`
     100% {transform: translateY(100%); opacity: 0;}

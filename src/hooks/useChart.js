@@ -8,7 +8,7 @@ const useChart = (onAddButtonClick, onUpdateButtonClick) => {
     let chartRef = useRef()
     const [chart, setChart] = useState([])
     const [employeeData, setEmployeeData] = useState([])
-
+    const [render, setRender] = useState(false)
     const handleSubmit = (file) => {
         let reader = new FileReader()
         reader.onload = (e) => {
@@ -42,6 +42,7 @@ const useChart = (onAddButtonClick, onUpdateButtonClick) => {
             let shapedData = initDepartmentData.map(item => shape(item))
             chartRef.current = new Flow(shapedData)
             setChart(chartRef.current.nodes)
+            setRender(true)
         }
         reader.readAsArrayBuffer(file)
     }
@@ -86,7 +87,7 @@ const useChart = (onAddButtonClick, onUpdateButtonClick) => {
         }, 1);
     }
     
-    return {chart, employeeData, insertNode, updateNode, handleSubmit}
+    return {chart, render, employeeData, insertNode, updateNode, handleSubmit}
 }
 
 export default useChart

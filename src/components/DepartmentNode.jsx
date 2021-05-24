@@ -117,7 +117,7 @@ const DepartmentNode = ({id, data, selected}) => {
                 </NameBar>
                 <StaffBar>
                     {data.staffs.map(staff => 
-                        <Avatar size="2rem" title={staff}>
+                        <Avatar size="2rem" title={staff} key={staff}>
                             <img src={`https://ttgvncom.sharepoint.com/sites/CommandCenter/_layouts/15/UserPhoto.aspx?Size=L&AccountName=${staff}`} alt=""/>
                         </Avatar>
                     )}
