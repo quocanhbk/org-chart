@@ -1,7 +1,6 @@
 import styled from "styled-components"
 import Context from '../Context'
 import ThemeToggle from './ThemeToggle'
-
 const Container = styled.div`
     padding: 0.5rem 1rem;
     display: flex;

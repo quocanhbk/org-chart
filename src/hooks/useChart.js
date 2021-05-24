@@ -1,21 +1,51 @@
 import { useRef, useState } from "react"
 import Flow from '../drawFlow'
 import xlsx from 'xlsx'
-
 // onAddButtonClick(parentId)
 //onUpdateButtonClick(oldId, parentId, data)
 
-const useChart = (initData, onAddButtonClick, onUpdateButtonClick) => {
+const useChart = (onAddButtonClick, onUpdateButtonClick) => {
+    let chartRef = useRef()
+    const [chart, setChart] = useState([])
+    const [employeeData, setEmployeeData] = useState([])
 
     const handleSubmit = (file) => {
         let reader = new FileReader()
         reader.onload = (e) => {
             let data = new Uint8Array(e.target.result)
             let workbook = xlsx.read(data, {type: 'array'})
-            console.log(workbook.Sheets)
+            let unitData = xlsx.utils.sheet_to_json(workbook.Sheets.Unit)
+            let positionData = xlsx.utils.sheet_to_json(workbook.Sheets.Position)
+            let employeeData = xlsx.utils.sheet_to_json(workbook.Sheets.Employee)
+            let initDepartmentData = unitData.map((unit) => ({
+                id: unit["Id"],
+                data: {
+                    name: unit["Title"],
+                    head: unit["Direct Manager"],
+                    staffs: positionData
+                            .filter(pos => pos["Unit"] === unit["Id"])
+                            .map(item => item["Employee"])
+                            .filter(emp => emp !== unit["Direct Manager"])
+                            .concat(unitData.filter(u => u["Parent"] === unit["Id"]).map(u => u["Direct Manager"]))
+                            
+                },
+                parentId: unit["Parent"] === undefined ? null : unit["Parent"]
+            }))
+
+            let initEmployeeData = employeeData.map(emp => ({
+                name: emp["Full Name"],
+                jobTitle: positionData.find(pos => pos["Employee"] === emp["Email"])["Name"],
+                email: emp["Email"]
+            }))
+            setEmployeeData(initEmployeeData)
+
+            let shapedData = initDepartmentData.map(item => shape(item))
+            chartRef.current = new Flow(shapedData)
+            setChart(chartRef.current.nodes)
         }
         reader.readAsArrayBuffer(file)
     }
+
     const onDeleteNode = (nodeId) => {
         chartRef.current.deleteNode(nodeId)
         setChart([])
@@ -39,10 +69,6 @@ const useChart = (initData, onAddButtonClick, onUpdateButtonClick) => {
         },
         parentId: item.parentId
     })
-    let shapedData = initData.map(item => shape(item))
-
-    const chartRef = useRef(new Flow(shapedData))
-    const [chart, setChart] = useState(chartRef.current.nodes)
     const insertNode = (data) => {
         data = shape(data)
         chartRef.current.insertNode(data)
@@ -60,7 +86,7 @@ const useChart = (initData, onAddButtonClick, onUpdateButtonClick) => {
         }, 1);
     }
     
-    return {chart, insertNode, updateNode, handleSubmit}
+    return {chart, employeeData, insertNode, updateNode, handleSubmit}
 }
 
 export default useChart
